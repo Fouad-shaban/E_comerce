@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import Nav from './comp/nav';
+import Rout from './comp/rout';
+import Footer from './comp/footer';
+import Homeproduct from './comp/home_product';
 
 function App() {
+  const [filteredProducts, setFilteredProducts] = useState(Homeproduct);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // دالة البحث
+  const handleSearch = (term) => {
+    setSearchTerm(term.toLowerCase());
+
+    const filtered = Homeproduct.filter((product) =>
+      product.Name.toLowerCase().includes(term.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Nav />
+      <Rout filteredProducts={filteredProducts} />
+      <Footer />
+    </BrowserRouter>
   );
 }
 
